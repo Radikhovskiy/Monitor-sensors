@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head th:replace="header :: header">
+    <meta charset="UTF-8">
+    <title>All sensors</title>
+    <style>
+    table, th, td {
+      border:1px solid black;
+      border-collapse: collapse;
+    }
+    </style>
+</head>
+<body>
+<h2>Sensor table</h2>
+
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Model</td>
+        <td>Type</td>
+<!--        <td>Range</td>-->
+        <td>Unit</td>
+        <td>Location</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${sensors.empty}">
+        <td colspan="5"> No Sensors Available </td>
+    </tr>
+    <tr th:each="sensor: ${sensors}">
+        <td> <a th:href="@{sensors/{id}(id=${sensor.id})}" th:text="${sensor.name}"></a></td>
+        <td> <span th:text="${sensor.model}"></span></td>
+        <td> <span th:text="${sensor.type}"></span></td>
+<!--        <td> <span th:text="${sensor.range}"></span></td>-->
+        <td> <span th:text="${sensor.unit}"></span></td>
+        <td> <span th:text="${sensor.location}"></span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
