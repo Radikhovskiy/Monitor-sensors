@@ -2,10 +2,20 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <title>Sensor</title>
 </head>
 <body>
+<div class="container">
+    <h2 th:text="'Sensor: ' + ${sensor.name}"></h2>
+    <form class="logout" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+
 <p th:text="${sensor.name}"></p>
 <p th:text="${sensor.id}"></p>
+
+<button th:type="button" th:onclick="'window.location.href = `/sensors`'">Back</button>
 </body>
 </html>

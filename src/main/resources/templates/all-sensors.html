@@ -1,42 +1,105 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-<head th:replace="header :: header">
+<head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <title>All sensors</title>
-    <style>
-    table, th, td {
-      border:1px solid black;
-      border-collapse: collapse;
-    }
-    </style>
 </head>
 <body>
-<h2>Sensor table</h2>
+<div class="container">
+    <h2>Sensor table</h2>
+    <form class="logout" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+
+<form th:action="@{sensors}" th:method="get">
+    <label for="name">Search by name:</label>
+    <input type="text" th:value="${name}" id="name" name="name">
+    <button type="submit">Search</button>
+</form>
 
 <table>
     <thead>
     <tr>
-        <td>Name</td>
-        <td>Model</td>
-        <td>Type</td>
-<!--        <td>Range</td>-->
-        <td>Unit</td>
-        <td>Location</td>
+        <div th:if="${admin}">
+            <td></td>
+        </div>
+        <th class="table">Name</th>
+        <th class="table">Model</th>
+        <th class="table">Type</th>
+        <th class="table">Range</th>
+        <th class="table">Unit</th>
+        <th class="table">Location</th>
+        <div th:if="${admin}">
+            <td></td>
+        </div>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${sensors.empty}">
-        <td colspan="5"> No Sensors Available </td>
+        <td colspan="7" class="empty"> No Sensors Available </td>
     </tr>
     <tr th:each="sensor: ${sensors}">
-        <td> <a th:href="@{sensors/{id}(id=${sensor.id})}" th:text="${sensor.name}"></a></td>
-        <td> <span th:text="${sensor.model}"></span></td>
-        <td> <span th:text="${sensor.type}"></span></td>
-<!--        <td> <span th:text="${sensor.range}"></span></td>-->
-        <td> <span th:text="${sensor.unit}"></span></td>
-        <td> <span th:text="${sensor.location}"></span></td>
+        <div th:if="${admin}">
+            <td>
+            <form th:action="@{sensors/edit/{id}(id=${sensor.id})}">
+                <input type="submit" value="Edit"/>
+            </form>
+            </td>
+        </div>
+        <td class="table">
+            <a th:href="@{sensors/{id}(id=${sensor.id})}" th:text="${sensor.name}"></a>
+        </td>
+        <td class="table"> <span th:text="${sensor.model}"></span></td>
+        <td class="table"> <span th:text="${sensor?.type?.value}"></span></td>
+        <td class="table"> <span th:text="${sensor.rangeFrom} + '-' + ${sensor.rangeTo}"></span></td>
+        <td class="table"> <span th:text="${sensor?.unit?.value}"></span></td>
+        <td class="table"> <span th:text="${sensor.location}"></span></td>
+        <div th:if="${admin}">
+            <td>
+                <form th:method="DELETE" th:action="@{sensors/{id}(id=${sensor?.id})}">
+                    <input type="submit" value="Delete"/>
+                </form>
+            </td>
+        </div>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="7" class="total">
+            <a th:text="'Total: ' + ${total}"></a>
+        </th>
+        <th class="navigation" th:if="${sensors.totalPages > 1}">
+             <span th:if="${sensors.hasPrevious()}">
+                 <a class="button"
+                    th:href="@{/sensors(name=${name},page=${sensors.previousPageable().pageNumber},count=${count})}"
+                    th:text="'Previous'"></a>
+             </span>
+                     <span>
+                 <a class="button" th:href="@{/sensors(name=${name},page=${0},count=${count})}" th:text="'1'"></a>
+             </span>
+                     <span th:each="pageNum : ${#numbers.sequence(0, sensors.totalPages - 1)}"
+                           th:if="${pageNum == 0 and sensors.totalElements == 0} ? '' : ${pageNum != 0}">
+                 <a class="button" th:href="@{/sensors(name=${name},page=${pageNum},count=${count})}"
+                    th:text="${pageNum + 1}"></a>
+             </span>
+                     <span th:if="${sensors.hasNext()}">
+                 <a class="button"
+                    th:href="@{/sensors(name=${name},page=${sensors.nextPageable().pageNumber},count=${count})}"
+                    th:text="'Next'"></a>
+             </span>
+        </th>
+    </tr>
+    </tfoot>
 </table>
+
+<br>
+
+<div th:if="${admin}">
+    <form th:action="@{/sensors/new}">
+        <input type="submit" value="Add sensor"/>
+    </form>
+</div>
 </body>
 </html>

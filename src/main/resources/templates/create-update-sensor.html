@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <title>Create sensor</title>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${sensor.id} ? 'Update form' : 'Create form'"></h2>
+    <form class="logout" th:action="@{/logout}">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+
+<form th:method="${sensor.id} ? 'PATCH' : 'POST'" th:action="@{/sensors/{id}(id=${sensor?.id})}" th:object="${sensor}">
+    <label for="name">Name </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br>
+    <label for="model">Model </label>
+    <input type="text" th:field="*{model}" id="model"/>
+    <br>
+    <label for="type">Type </label>
+    <select th:field="*{type}" id="type">
+        <option value="" selected>--Select--</option>
+        <option th:each="type : ${types}"
+                th:value="${type}"
+                th:text="${type.value}"></option>
+    </select>
+    <br>
+    <label for="rangeFrom">Range from </label>
+    <input type="text" th:field="*{rangeFrom}" id="rangeFrom"/>
+    <br>
+    <label for="rangeTo">Range to </label>
+    <input type="text" th:field="*{rangeTo}" id="rangeTo"/>
+    <br>
+    <label for="unit">Unit </label>
+    <select th:field="*{unit}" id="unit">
+        <option value="" selected>--Select--</option>
+        <option th:each="unit : ${units}"
+                th:value="${unit}"
+                th:text="${unit.value}"></option>
+    </select>
+    <br>
+    <label for="location">Location </label>
+    <input type="text" th:field="*{location}" id="location"/>
+    <br>
+    <label for="description">Description </label>
+    <input type="text" th:field="*{description}" id="description"/>
+    <br>
+
+    <div class="error" th:if="${errors}" th:each="error : ${errors}">
+        <span th:text="${error.defaultMessage}"></span>
+    </div>
+
+    <input type="submit" th:value="${sensor.id} ? 'Update' : 'Create'">
+    <button th:type="button" th:onclick="'window.location.href = `/sensors`'">Cancel</button>
+</form>
+</body>
+</html>

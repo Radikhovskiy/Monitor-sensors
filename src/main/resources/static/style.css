@@ -1,0 +1,52 @@
+.button {
+  display: inline-block;
+  margin: 3px;
+  padding: 2px 5px;
+  background-color: #dcdcdc;
+  color: #444;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.error {
+  color:red;
+}
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.total {
+  border: 0px solid black;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.empty {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.navigation {
+  text-align: right;
+}
+
+.logout {
+  float: right;
+  display: inline-block;
+}
+
+h2 {
+  display: inline-block;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
