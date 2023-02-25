@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - POSTGRES_USER="${DB_USERNAME}"
+      - POSTGRES_PASSWORD="${DB_PASSWORD}"
+    ports:
+      - '5432:5432'
+#    volumes:
+#      - db:/var/lib/postgresql/data
+#  volumes:
+#    db:
+#      driver: local
+  app:
+    depends_on:
+      - db
+    image: monitor-sensors
+    build: .
+    env_file: ./.env
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "${DB_URL}"
+        "spring.datasource.username" : "${DB_USERNAME}"
+        "spring.datasource.password" : "${DB_PASSWORD}"
+        "spring.jpa.hibernate.ddl-auto" : "validate"
+        
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQL10Dialect"
+        "spring.jpa.show-sql" : "true"
+        "spring.jpa.properties.hibernate.auto_quote_keyword" : "true"
+        "spring.mvc.hiddenMethod.filter.enabled" : "true"
+      }'

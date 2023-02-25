@@ -21,6 +21,12 @@
   text-align: center;
 }
 
+.left {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: left;
+}
+
 .total {
   border: 0px solid black;
   border-collapse: collapse;

@@ -7,14 +7,83 @@
 </head>
 <body>
 <div class="container">
-    <h2 th:text="'Sensor: ' + ${sensor.name}"></h2>
+    <h2 th:text="${sensor.name}"></h2>
     <form class="logout" th:action="@{/logout}">
         <input type="submit" value="Logout"/>
     </form>
 </div>
 
-<p th:text="${sensor.name}"></p>
-<p th:text="${sensor.id}"></p>
+<!--<table class="table">-->
+<!--    <tr>-->
+<!--        <th class="table">ID</th>-->
+<!--        <td class="table" th:text="${sensor.id}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Name</th>-->
+<!--        <td class="table" th:text="${sensor.name}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Model</th>-->
+<!--        <td class="table" th:text="${sensor.model}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Location</th>-->
+<!--        <td class="table" th:text="${sensor.location}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Range</th>-->
+<!--        <td class="table" th:text="${sensor.rangeFrom} + '-' + ${sensor.rangeTo}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Type</th>-->
+<!--        <td class="table" th:text="${sensor.type.value}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Unit</th>-->
+<!--        <td class="table" th:text="${sensor.unit.value}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <th class="table">Description</th>-->
+<!--        <td class="table" th:text="${sensor.description}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<table class="table">
+    <tr>
+        <th class="table">id</th>
+        <td class="left" th:text="${sensor.id}" th:if="${sensor.id != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Name</th>
+        <td class="left" th:text="${sensor.name}" th:if="${sensor.name != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Model</th>
+        <td class="left" th:text="${sensor.model}" th:if="${sensor.model != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Location</th>
+        <td class="left" th:text="${sensor.location}" th:if="${sensor.location != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Range</th>
+        <td class="left" th:text="${sensor.rangeFrom} + '-' + ${sensor.rangeTo}" th:if="${sensor.rangeFrom != null and sensor.rangeTo != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Type</th>
+        <td class="left" th:text="${sensor.type.value}" th:if="${sensor.type != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Unit</th>
+        <td class="left" th:text="${sensor.unit.value}" th:if="${sensor.unit != null}"></td>
+    </tr>
+    <tr>
+        <th class="table">Description</th>
+        <td class="left" th:text="${sensor.description}" th:if="${sensor.description != null}"></td>
+    </tr>
+</table>
+
+<br>
 
 <button th:type="button" th:onclick="'window.location.href = `/sensors`'">Back</button>
 </body>
